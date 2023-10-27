@@ -3,6 +3,7 @@ package com.liuyun.lang;
 import com.liuyun.lang.antlr.YunLangLexer;
 import com.liuyun.lang.antlr.YunLangParser;
 import com.liuyun.lang.ast.Program;
+import com.liuyun.lang.entity.Environment;
 import com.liuyun.lang.tools.CommonTools;
 import com.liuyun.lang.visitor.ASTVisitor;
 import com.liuyun.lang.visitor.ParseTreeVisitor;
@@ -24,7 +25,8 @@ public class Main {
 		Program ast = (Program) parseTreeVisitor.visit(tree);
 
 		ASTVisitor astVisitor = new ASTVisitor();
-		astVisitor.interpret(ast);
+		Environment global = Environment.createGlobal();
+		astVisitor.interpret(ast, global);
 	}
 
 }

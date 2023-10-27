@@ -8,6 +8,7 @@ import com.liuyun.lang.ast.Expression;
 import com.liuyun.lang.ast.NumberLiteral;
 import com.liuyun.lang.ast.StringLiteral;
 import com.liuyun.lang.ast.Variable;
+import com.liuyun.lang.tools.CommonTools;
 
 public class ExpressionVisitor extends YunLangBaseVisitor {
 
@@ -88,6 +89,9 @@ public class ExpressionVisitor extends YunLangBaseVisitor {
         if (ctx.literal() != null) {
             return visit(ctx.literal());
         }
+        if (ctx.callExpression() != null) {
+            return visit(ctx.callExpression());
+        }
         return visit(ctx.expression());
     }
 
@@ -97,7 +101,7 @@ public class ExpressionVisitor extends YunLangBaseVisitor {
             return new Variable(ctx.ID().getText());
         }
         if (ctx.NUMBER() != null) {
-            return new NumberLiteral(ctx.NUMBER().getText());
+            return new NumberLiteral(CommonTools.parseNum(ctx.NUMBER().getText()));
         }
         if (ctx.STRING() != null) {
             return new StringLiteral(ctx.STRING().getText());

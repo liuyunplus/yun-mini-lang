@@ -1,4 +1,4 @@
-// Generated from /home/liuyun/Public/MyPro/yun-mini-lang-java/src/main/resources/YunLang.g4 by ANTLR 4.12.0
+// Generated from /home/liuyun/Public/MyPro/yun-mini-lang/src/main/resources/YunLang.g4 by ANTLR 4.12.0
 
 package com.liuyun.lang.antlr;
 

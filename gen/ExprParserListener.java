@@ -1,4 +1,4 @@
-// Generated from /home/liuyun/Public/MyPro/yun-mini-lang-java/src/main/resources/ExprParser.g4 by ANTLR 4.12.0
+// Generated from /home/liuyun/Public/MyPro/yun-mini-lang/src/main/resources/ExprParser.g4 by ANTLR 4.12.0
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
