@@ -2,12 +2,14 @@ package com.liuyun.lang.ast;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class NumberLiteral extends Literal {
 
-    private double value;
+    public BigDecimal value;
 
-    public NumberLiteral(double value) {
+    public NumberLiteral(BigDecimal value) {
         this.value = value;
     }
 

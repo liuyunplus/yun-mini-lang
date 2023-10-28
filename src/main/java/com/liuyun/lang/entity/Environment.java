@@ -1,5 +1,6 @@
 package com.liuyun.lang.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,7 +56,7 @@ public class Environment {
 
     public static FunctionCall nowTimeFunc = (List<RuntimeVal> args, Environment env) -> {
         long nowTime = System.currentTimeMillis();
-        return new NumberVal(nowTime);
+        return new NumberVal(BigDecimal.valueOf(nowTime));
     };
 
     public static FunctionCall printFunc = (List<RuntimeVal> args, Environment env) -> {
@@ -63,7 +64,8 @@ public class Environment {
         for (RuntimeVal arg : args) {
             if (arg instanceof NumberVal) {
                 NumberVal val = (NumberVal) arg;
-                items.add(val.getValue());
+                BigDecimal num = val.getValue();
+                items.add(num.toPlainString());
             }
             if (arg instanceof BooleanVal) {
                 BooleanVal val = (BooleanVal) arg;

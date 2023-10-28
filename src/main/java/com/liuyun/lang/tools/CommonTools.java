@@ -3,6 +3,8 @@ package com.liuyun.lang.tools;
 import com.google.common.io.Resources;
 import com.liuyun.lang.entity.BooleanVal;
 import com.liuyun.lang.entity.RuntimeVal;
+
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,20 +21,12 @@ public class CommonTools {
         throw new RuntimeException("error");
     }
 
-    public static double parseNum(Object obj) {
-        if (obj instanceof Number) {
-            return (double) obj;
+    public static BigDecimal parseNum(String input) {
+        if (isInteger(input)) {
+            return BigDecimal.valueOf(Long.parseLong(input));
         }
-        if (obj instanceof String) {
-            String input = (String) obj;
-            return castNum(input);
-        }
-        throw new RuntimeException("error");
-    }
-
-    public static double castNum(String input) {
-        if (isInteger(input) || isDouble(input)) {
-            return Double.parseDouble(input);
+        if (isDouble(input)) {
+            return BigDecimal.valueOf(Double.parseDouble(input));
         }
         throw new IllegalArgumentException("Invalid input: " + input);
     }

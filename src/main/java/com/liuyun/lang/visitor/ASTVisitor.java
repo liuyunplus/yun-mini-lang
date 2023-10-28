@@ -25,6 +25,9 @@ import com.liuyun.lang.entity.NumberVal;
 import com.liuyun.lang.entity.RuntimeVal;
 import com.liuyun.lang.entity.StringVal;
 import com.liuyun.lang.tools.CommonTools;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -123,29 +126,29 @@ public class ASTVisitor {
 
 
     public RuntimeVal interpretNumberExpr(NumberVal left, NumberVal right, String operator) {
-        double lhs = left.getValue();
-        double rhs = right.getValue();
+        BigDecimal lhs = left.getValue();
+        BigDecimal rhs = right.getValue();
         switch (operator) {
             case "*":
-                return new NumberVal(lhs * rhs);
+                return new NumberVal(lhs.multiply(rhs));
             case "/":
-                return new NumberVal(lhs / rhs);
+                return new NumberVal(lhs.divide(rhs, 15, RoundingMode.HALF_UP).stripTrailingZeros());
             case "+":
-                return new NumberVal(lhs + rhs);
+                return new NumberVal(lhs.add(rhs));
             case "-":
-                return new NumberVal(lhs - rhs);
+                return new NumberVal(lhs.subtract(rhs));
             case "<":
-                return new BooleanVal(lhs < rhs);
+                return new BooleanVal(lhs.compareTo(rhs) < 0);
             case ">":
-                return new BooleanVal(lhs > rhs);
+                return new BooleanVal(lhs.compareTo(rhs) > 0);
             case "<=":
-                return new BooleanVal(lhs <= rhs);
+                return new BooleanVal(lhs.compareTo(rhs) <= 0);
             case ">=":
-                return new BooleanVal(lhs >= rhs);
+                return new BooleanVal(lhs.compareTo(rhs) >= 0);
             case "==":
-                return new BooleanVal(lhs == rhs);
+                return new BooleanVal(lhs.compareTo(rhs) == 0);
             case "!=":
-                return new BooleanVal(lhs != rhs);
+                return new BooleanVal(lhs.compareTo(rhs) != 0);
             default:
                 throw new RuntimeException("error");
         }
@@ -169,15 +172,14 @@ public class ASTVisitor {
     public RuntimeVal interpretUpdateExpr(Node node, Environment env) {
         UpdateExpression updateExpr = (UpdateExpression) node;
         String operator = updateExpr.getOperator();
+        Boolean prefix = updateExpr.getPrefix();
         Variable variable = updateExpr.getVariable();
-        boolean prefix = updateExpr.getPrefix();
         NumberVal numberVal = (NumberVal) interpret(variable, env);
-        double var = numberVal.getValue();
         switch (operator) {
             case "++":
-                return new NumberVal(prefix ? ++var : var++);
+                return new NumberVal(numberVal.increment(prefix));
             case "--":
-                return new NumberVal(prefix ? --var : var--);
+                return new NumberVal(numberVal.decrement(prefix));
             default:
                 throw new RuntimeException("error");
         }

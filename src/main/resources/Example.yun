@@ -1,6 +1,4 @@
 print("======START======")
-for(i=0; i<10; i=i+1) {
-    n = time()
-    print(n, i)
-}
+i = 0
+print(++i, i++)
 print("======END======")
